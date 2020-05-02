@@ -1,7 +1,7 @@
 # Vehicle workshop
 
 ## Description
-This repository is an example code demonstrating several coding principles and patterns but most importantly it obeys to the dependency rule. The beloved one!
+This repository is an example code demonstrating several coding principles and patterns but most importantly it obeys to the dependency rule, the beloved one!
 
 The programing language used is PHP 7+.
 

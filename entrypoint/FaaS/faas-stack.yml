@@ -1,0 +1,14 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:31112
+functions:
+  wash:
+    lang: php7-laminas
+    handler: ./entrypoint/FaaS/wash
+    image: localhost:5000/wash:latest
+  repair:
+    lang: php7-laminas
+    handler: ./entrypoint/FaaS/repair
+    image: localhost:5000/repair:latest
+

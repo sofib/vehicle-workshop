@@ -2,8 +2,7 @@
 
 namespace SofiB\Delivery\Console;
 
-use SofiB\Business\VehicleService;
-use SofiB\Business\Vehicle\Vehicle;
+use SofiB\Business\VehicleRoot;
 
 class RepairCommand extends VehicleCommand
 {
@@ -15,8 +14,8 @@ class RepairCommand extends VehicleCommand
         $this->setDescription('Repairs a vehicle. Use \'cli help ' . self::$defaultName . '\' for more info.');
     }
 
-    protected function vehicleAction(Vehicle $vehicle, VehicleService $service): float
+    protected function vehicleAction(VehicleRoot $vehicle): float
     {
-        return $service->repair($vehicle);
+        return $vehicle->service()->repair();
     }
 }

@@ -1,0 +1,28 @@
+{
+    "name": "RepairHandler",
+    "description": "Wash handler function",
+    "type": "project",
+    "config": {
+        "classmap-authoritative": true
+    },
+    "autoload": {
+        "psr-4": {
+            "SofiB\\Delivery\\FaaS\\": "src/",
+            "OpenFaaS\\": "src/"
+        }
+    },
+    "require": {
+        "sofib/vehicle-workshop": "dev-introduce-faas-endpoints",
+        "laminas/laminas-diactoros": "^2.3.0",
+        "laminas/laminas-httphandlerrunner": "^1.1.0",
+        "laminas/laminas-http": "^2.11.2",
+        "psr/http-message-implementation": "^1.0.0",
+        "php": "^7.4"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sofib/vehicle-workshop"
+        }
+    ]
+}

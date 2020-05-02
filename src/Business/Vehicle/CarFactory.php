@@ -1,9 +1,6 @@
 <?php
 
-namespace SofiB\Business;
-
-use SofiB\Business\Vehicle\Car;
-use SofiB\Business\Vehicle\Vehicle;
+namespace SofiB\Business\Vehicle;
 
 class CarFactory implements VehicleFactory
 {
