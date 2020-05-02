@@ -10,6 +10,7 @@ use Laminas\Diactoros\Response;
 use Laminas\HttpHandlerRunner\Emitter\EmitterInterface;
 
 use SofiB\Business\VehicleRoot;
+use SofiB\Infrastructure\VoidEventStream;
 
 /**
  * Class Handler
