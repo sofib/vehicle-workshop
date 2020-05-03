@@ -1,9 +1,11 @@
 # Vehicle workshop
 
 ## Description
-This repository is an example code demonstrating several coding principles and patterns but most importantly it obeys to the dependency rule. The beloved one!
+This repository is an example code demonstrating several coding principles and patterns but most importantly it obeys to the dependency rule, the beloved one!
 
 The programing language used is PHP 7+.
+
+The **introduce-faas-endpoints** branch enables logic from this project to be exposed as functions within the PLONK stack.
 
 ## Requirements
 There are 2 ways code can be used:
