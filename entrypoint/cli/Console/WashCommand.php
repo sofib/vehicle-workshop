@@ -2,8 +2,7 @@
 
 namespace SofiB\Delivery\Console;
 
-use SofiB\Business\VehicleService;
-use SofiB\Business\Vehicle\Vehicle;
+use SofiB\Business\VehicleRoot;
 
 class WashCommand extends VehicleCommand
 {
@@ -14,8 +13,9 @@ class WashCommand extends VehicleCommand
         parent::configure();
         $this->setDescription('Washes a vehicle. Use \'cli help ' . self::$defaultName . '\' for more info.');
     }
-    protected function vehicleAction(Vehicle $vehicle, VehicleService $service): float
+
+    protected function vehicleAction(VehicleRoot $vehicle): float
     {
-        return $service->wash($vehicle);
+        return $vehicle->service()->wash();
     }
 }

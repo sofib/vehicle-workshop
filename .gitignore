@@ -1,3 +1,7 @@
 vendor
 .idea
 .vscode
+.temp
+template
+build
+faas-netes

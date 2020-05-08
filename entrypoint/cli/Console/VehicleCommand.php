@@ -2,11 +2,7 @@
 
 namespace SofiB\Delivery\Console;
 
-use SofiB\Business\VehicleFactory;
-use SofiB\Business\CarFactory;
-use SofiB\Business\MotorcycleFactory;
-use SofiB\Business\VehicleService;
-use SofiB\Business\Vehicle\Vehicle;
+use SofiB\Business\VehicleRoot;
 use SofiB\Infrastructure\LoggerEventStream;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,24 +15,11 @@ abstract class VehicleCommand extends Command
 {
     protected static $defaultName = 'repair';
 
-    private const CAR = 'car';
-    private const MOTOR = 'motor';
-
     private const VEHICLE_TYPE = 'vehicle-type';
-
-    /**
-     * @var VehicleFactory[]
-     */
-    private $vehicleFactoryMap;
 
     public function __construct(?string $name = null)
     {
         parent::__construct($name);
-        $this->vehicleFactoryMap = [
-            self::CAR => new CarFactory(),
-            self::MOTOR => new MotorcycleFactory(),
-        ];
-
     }
 
     public function configure()
@@ -45,16 +28,16 @@ abstract class VehicleCommand extends Command
             self::VEHICLE_TYPE,
             't',
             InputOption::VALUE_REQUIRED,
-            'Type of the vehicle. Available ' . self::CAR . ',' . self::MOTOR
+            'Type of the vehicle. Available ' . implode(',', VehicleRoot::getValidVehicleTypes())
         );
     }
 
-    protected abstract function vehicleAction (Vehicle $vehicle, VehicleService $service): float;
+    protected abstract function vehicleAction (VehicleRoot $vehicle): float;
     
     protected function execute(InputInterface $input, OutputInterface $output): void
     {
         $vehicleType = $input->getOption(self::VEHICLE_TYPE);
-        if (!in_array($vehicleType, [self::CAR, self::MOTOR])) {
+        if (!in_array($vehicleType, VehicleRoot::getValidVehicleTypes())) {
             $output->writeln('Invalid option vehicle type');
             return;
         }
@@ -67,8 +50,10 @@ abstract class VehicleCommand extends Command
           LogLevel::INFO   => OutputInterface::VERBOSITY_NORMAL,
         ];
 
-        $service = new VehicleService(new LoggerEventStream(new ConsoleLogger($output, $verbosityLevelMap)));
-        $cost = $this->vehicleAction($this->vehicleFactoryMap[$vehicleType]->new(), $service);
+        // $service = new VehicleService(new LoggerEventStream(new ConsoleLogger($output, $verbosityLevelMap)));
+        // $cost = $this->vehicleAction($this->vehicleFactoryMap[$vehicleType]->new(), $service);
+        $root = VehicleRoot::serveVehicle(VehicleRoot::createVehicleFromType($vehicleType), new LoggerEventStream(new ConsoleLogger($output, $verbosityLevelMap)));
+        $cost = $this->vehicleAction($root);
         $output->writeln(sprintf('Please pay %.2f', $cost));
 
         $output->writeln('==============');

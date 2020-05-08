@@ -17,41 +17,44 @@ use SofiB\Infrastructure\EventStream;
  */
 class VehicleService
 {
+    private $vehicle;
     private $eventStream;
-    public function __construct(EventStream $eventStream)
+
+    public function __construct(Vehicle $vehicle, EventStream $eventStream)
     {
+        $this->vehicle = $vehicle;
         $this->eventStream = $eventStream;
     }
 
-    public function wash(Vehicle $vehicle): float
+    public function wash(): float
     {
-        $this->eventStream->emit(new ServiceStarted(__FUNCTION__, $vehicle->toArray()));
+        $this->eventStream->emit(new ServiceStarted(__FUNCTION__, $this->vehicle->toArray()));
 
         $service = new Wash();
-        $service->addWater(Wash::createWaterUsage($vehicle->getWeight() * 0.05));
-        $service->addWork(Wash::createWork($this->calculateEffort($vehicle)));
+        $service->addWater(Wash::createWaterUsage($this->vehicle->getWeight() * 0.05));
+        $service->addWork(Wash::createWork($this->calculateEffort($this->vehicle)));
         $cost = $service->getCost();
 
-        $this->eventStream->emit(new ServiceEnded(__FUNCTION__, array_merge($vehicle->toArray(), ['cost' => $cost])));
+        $this->eventStream->emit(new ServiceEnded(__FUNCTION__, array_merge($this->vehicle->toArray(), ['cost' => $cost])));
 
         return $cost;
     }
 
-    public function repair(Vehicle $vehicle): float
+    public function repair(): float
     {
         $this->eventStream->emit(
-            new ServiceStarted(__FUNCTION__, $vehicle->toArray()));
+            new ServiceStarted(__FUNCTION__, $this->vehicle->toArray()));
 
         $service = new Repair();
 
-        $service->addWork(Repair::createWork($this->calculateEffort($vehicle, 0.00021), 40.00, 'Oil exchange'));
-        $service->addWork(Repair::createWork($this->calculateEffort($vehicle, 0.00018), 50.00, 'Installment'));
-        $work = Repair::createWork($this->calculateEffort($vehicle, 0.00033), 125.00, 'Heavy repair');
+        $service->addWork(Repair::createWork($this->calculateEffort($this->vehicle, 0.00021), 40.00, 'Oil exchange'));
+        $service->addWork(Repair::createWork($this->calculateEffort($this->vehicle, 0.00018), 50.00, 'Installment'));
+        $work = Repair::createWork($this->calculateEffort($this->vehicle, 0.00033), 125.00, 'Heavy repair');
         $work->addDiscount(250.00, 'coupon');
         $service->addWork($work);
         $cost = $service->getCost();
 
-        $this->eventStream->emit(new ServiceEnded(__FUNCTION__, array_merge($vehicle->toArray(), ['cost' => $cost])));
+        $this->eventStream->emit(new ServiceEnded(__FUNCTION__, array_merge($this->vehicle->toArray(), ['cost' => $cost])));
 
         return $cost;
     }
