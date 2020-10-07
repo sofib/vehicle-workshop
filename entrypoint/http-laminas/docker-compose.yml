@@ -1,0 +1,17 @@
+version: '2.1'
+services:
+  api:
+    build: .
+    restart: always
+    volumes:
+      - './src:/home/app/src'
+      - './public:/home/app/public'
+    ports:
+      - ${EXPOSED_PORT_SERVICE:-8080}:80
+    command: sh -c 'php public/index.php'
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+    ports:
+      - ${EXPOSED_PORT_MYSQL:-3306}:3306

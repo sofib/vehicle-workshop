@@ -22,22 +22,22 @@ final class VehicleRoot
 
   public function service () : VehicleService 
   {
-    return $this->serviceInstance;
+      return $this->serviceInstance;
   }
 
   public static function getValidVehicleTypes () : array 
   {
-    return static::SUPPORTED_VEHICLES;
+      return static::SUPPORTED_VEHICLES;
   }
 
   private function __construct (VehicleService $service)
   {
-    $this->serviceInstance = $service;
+      $this->serviceInstance = $service;
   }
 
   public static function serveVehicle (Vehicle\Vehicle $vehicle, EventStream $stream) : VehicleRoot
   {
-    return new VehicleRoot(new VehicleService($vehicle, $stream));
+      return new VehicleRoot(new VehicleService($vehicle, $stream));
   }
 
   public static function createVehicleFromType (string $type): Vehicle\Vehicle

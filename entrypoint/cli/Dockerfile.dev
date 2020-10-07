@@ -6,13 +6,13 @@ RUN mkdir /var/opt/workshop
 
 WORKDIR /var/opt/workshop
 
-ADD src ./src
-ADD entrypoint/cli ./entrypoint
-ADD composer.json .
-ADD composer.lock .
+ADD src ./src/Delivery
+COPY ../src ./src
+
+ADD composer.dev.json composer.json
 
 RUN composer install
 
 VOLUME [ "/var/opt/workshop/src" ]
 
-ENTRYPOINT [ "php", "entrypoint/cli.php" ]
+ENTRYPOINT [ "php", "cli.php" ]

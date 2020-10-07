@@ -19,6 +19,7 @@ class VehicleService
 {
     private $vehicle;
     private $eventStream;
+    private $persister;
 
     public function __construct(Vehicle $vehicle, EventStream $eventStream)
     {
@@ -40,7 +41,7 @@ class VehicleService
         return $cost;
     }
 
-    public function repair(): float
+    public function repair () : float
     {
         $this->eventStream->emit(
             new ServiceStarted(__FUNCTION__, $this->vehicle->toArray()));
@@ -50,6 +51,7 @@ class VehicleService
         $service->addWork(Repair::createWork($this->calculateEffort($this->vehicle, 0.00021), 40.00, 'Oil exchange'));
         $service->addWork(Repair::createWork($this->calculateEffort($this->vehicle, 0.00018), 50.00, 'Installment'));
         $work = Repair::createWork($this->calculateEffort($this->vehicle, 0.00033), 125.00, 'Heavy repair');
+
         $work->addDiscount(250.00, 'coupon');
         $service->addWork($work);
         $cost = $service->getCost();
@@ -57,6 +59,16 @@ class VehicleService
         $this->eventStream->emit(new ServiceEnded(__FUNCTION__, array_merge($this->vehicle->toArray(), ['cost' => $cost])));
 
         return $cost;
+    }
+
+    public function serve (Billing\Specs $specs)
+    {
+        # code...
+    }
+
+    public static function repairBuilder () : Billing\RepairBuilder
+    {
+        return new Billing\RepairBuilder();
     }
 
     private function calculateEffort(Vehicle $vehicle, float $costIndex = 0.00015): float

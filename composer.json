@@ -2,12 +2,10 @@
     "name": "sofib/vehicle-workshop",
     "autoload": {
         "psr-4": {
-            "SofiB\\": "src/",
-            "SofiB\\Delivery\\": "entrypoint/"
+            "SofiB\\": "src/"
         }
     },
     "require": {
-        "symfony/console": "^4.2",
         "psr/log": "^1.1"
     }
 }

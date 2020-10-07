@@ -1,0 +1,19 @@
+{
+    "name": "sofib/vehicle-workshop-cli",
+    "autoload": {
+        "psr-4": {
+            "SofiB\\Delivery\\": "src/"
+        }
+    },
+    "require": {
+        "sofib/vehicle-workshop": "dev-master",
+        "symfony/console": "^4.2",
+        "psr/log": "^1.1"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/sofib/vehicle-workshop"
+        }
+    ]
+}
