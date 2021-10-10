@@ -45,7 +45,9 @@ final class VehicleRoot
     if (!in_array($type, static::SUPPORTED_VEHICLES)) {
       return null;
     }
+
     $factory = new static::$vehicleFactoryMap[$type];
+
     return $factory->new();
   }
 }

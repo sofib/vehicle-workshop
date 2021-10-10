@@ -4,8 +4,8 @@ namespace SofiB\Business\Vehicle;
 
 class CarFactory implements VehicleFactory
 {
-    public function new(): Vehicle
+    public function builder(): CarBuilder
     {
-        return new Car();
+        return new CarBuilder();
     }
 }

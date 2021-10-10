@@ -7,15 +7,46 @@ namespace SofiB\Business\Vehicle;
  */
 class Motorcycle implements Vehicle
 {
-  public function getWeight () : float {
-    return 800; //kg
+  private ?VehicleIdentifier $id;
+  private float $weight;
+  private array $dimensions;
+  private string $dimensionUnit = 'cm';
+  private string $weightUnit = 'kg';
+  private int $numberOfWheels = 2;
+
+  public function __construct(float $weight, array $dimensions, int $numberOfWheels, ?VehicleIdentifier $id = null)
+  {
+    $this->id = $id;
+    $this->weight = $weight;
+    $this->dimensions = $dimensions;
+    $this->numberOfWheels = $numberOfWheels;
   }
 
-  public function getDimensions () : array {
-    return [80, 160, 30]; //cm
+  public function getId(): ?VehicleIdentifier
+  {
+    return $this->id;
+  }
+
+  public function getWeight () : float
+  {
+    return $this->weight;
+  }
+
+  public function getDimensions () : array
+  {
+    return $this->dimensions; //cm
+  }
+
+  public function getNumberOfWheels() : int
+  {
+    return $this->numberOfWheels;
   }
 
   public function toArray () : array {
-    return [ 'weight' => $this->getWeight(), 'dimensions' => $this->getDimensions()];
+    return [
+      'weight' => $this->getWeight(),
+      'dimensions' => $this->getDimensions(),
+      'numberOfWheels' => $this->getNumberOfWheels(),
+    ];
   }
 }
